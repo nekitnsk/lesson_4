@@ -76,17 +76,20 @@ function sumCost($i) {
 	global $vol_order_disc;
 	global $summa;
 	global $not_available;
-
+	
 	$ind_discount[$i] = $discount[$i]; #добавим индивидуальную скидку в соответствующий массив 
 	if ($quantity[$i]>$balance[$i]) { #если заказано больше, чем имеется наличии
 		$not_available[$i] = 'В наличии только '.$balance[$i].' шт.'; #добавить в массив предупреждение
+	
 		} else { $not_available[$i]='';}
 	if ($quantity[$i]>=$N) { #если объём заказа более 3-х единиц
 		$discount[$i]+=$cost[$i]*$D/100; #дать доп. скидку 30% и увеличить суммарную скидку на её размер  
 		$vol_order_disc[$i]=$cost[$i]*$D/100; #добавим в массив скидку от объёма
 	} else {$vol_order_disc[$i]=0;} #если кол-во товара < 3, то скидка от объёма равна 0
 	$discounted_cost[$i]-=$discount[$i]; #стоимость товара со скидкой
-	$summa[$i] = $discounted_cost[$i]*$balance[$i]; #суммарная стоимость товаров каждой позиции
+	if($quantity[$i]>$balance[$i]) {
+		$summa[$i] = $discounted_cost[$i]*$balance[$i];
+	} else {$summa[$i]=$discounted_cost[$i]*$quantity[$i];} #суммарная стоимость товаров каждой позиции
 }
 
 //отобразим все данные в таблице
