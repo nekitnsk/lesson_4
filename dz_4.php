@@ -63,13 +63,13 @@ for ($i = 0; $i < count($prod); $i++) {
 	//функция рассчёта суммарной стоимости товаров
 function sumCost($i) {
 	global $cost,$discounted_cost,$quantity,$balance,$discount,
-		   $N,$D,$ind_discount,$vol_order_disc,$summa,$not_available;
+		   $N,$D,$ind_discount,$vol_order_disc,$summa,$not_available, $prod;
 	
 	$ind_discount[$i] = $discount[$i]; #добавим индивидуальную скидку в соответствующий массив 
 	if ($quantity[$i]>$balance[$i]) { #если заказано больше, чем имеется наличии
 		$not_available[$i] = 'В наличии только '.$balance[$i].' шт.'; #добавить в массив предупреждение
 		} else { $not_available[$i]='';}
-	if ($quantity[$i]>=$N) { #если объём заказа более 3-х единиц
+	if ($quantity[$i]>=$N && $prod[$i]=='Игрушка детская велосипед') { #если объём заказа более 3-х единиц
 		$discount[$i]+=$cost[$i]*$D/100; #дать доп. скидку 30% и увеличить суммарную скидку на её размер  
 		$vol_order_disc[$i]=$cost[$i]*$D/100; #добавим в массив скидку от объёма
 	} else {$vol_order_disc[$i]=0;} #если кол-во товара < 3, то скидка от объёма равна 0
